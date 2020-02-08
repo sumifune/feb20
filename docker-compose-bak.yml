@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+  api:
+    build: .
+    volumes:
+      # Local app folder is mounted to the container
+      - .:/usr/src/app
+      # node_modules that are installed inside the container during
+      # the build will not be overridden by your current folder.
+      - /usr/src/app/node_modules
+    container_name: api
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MONGO_USERNAME=$MONGO_USERNAME
+      - MONGO_PASSWORD=$MONGO_PASSWORD
+      - MONGO_HOSTNAME=db
+      - MONGO_PORT=$MONGO_PORT
+      - MONGO_DB=$MONGO_DB
+    ports:
+      - "80:3000"
+    networks:
+      - app-network
+    command: ["./wait-for.sh", "db:27017", "--", "npm", "start" ]
+
+  db:
+    image: mongo:4.1.8-xenial
+    container_name: db
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+    ports:
+      - "81:27017"
+    volumes:
+      - dbdata:/data/db
+    networks:
+      - app-network
+  redis:
+    image: 'bitnami/redis:latest'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - redisdata:/bitnami/redis/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+  redisdata:

@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  .row
+    form(method='post', action='/users/edit', novalidate='novalidate')
+      input#originalname.form-control(name='originalname', type='hidden', value= currentUser.name)
+      input#originalemail.form-control(name='originalemail', type='hidden', value= currentUser.email)
+      .form-group
+        label(for='email') Email
+        input#email.form-control(type='email', name="email", value= currentUser.email || "no email")
+      .form-group
+        label(for='name') Name
+        input#name.form-control(type='text', name="name", value= currentUser.name || "no name")
+      br
+      button.btn.btn-primary(type='submit') Update

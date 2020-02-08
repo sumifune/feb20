@@ -1,0 +1,44 @@
+{
+  "name": "zz",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon --legacy-watch ./bin/www",
+    "test": "mocha --recursive --reporter spec --exit",
+    "tc": "nyc --reporter=text mocha --recursive --reporter spec --exit",
+    "tc90": "nyc --check-coverage --lines 90 --reporter=text mocha",
+    "tc90-per-file": "nyc --check-coverage --lines 90 --per-file --reporter=text mocha"
+  },
+  "dependencies": {
+    "async": "^3.1.1",
+    "bcryptjs": "^2.4.3",
+    "connect-flash": "^0.1.1",
+    "connect-redis": "^4.0.3",
+    "crypto": "^1.0.1",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "express-session": "^1.17.0",
+    "express-validator": "^6.3.1",
+    "http-errors": "~1.6.3",
+    "mongoose": "^5.8.3",
+    "morgan": "~1.9.1",
+    "nodemailer": "^6.4.2",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "pug": "^2.0.4",
+    "redis": "^2.8.0",
+    "xoauth2": "^1.2.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^6.2.2",
+    "nodemon": "^2.0.2",
+    "nyc": "^15.0.0",
+    "sinon": "^8.0.2",
+    "sinon-chai": "^3.4.0",
+    "sinon-mongoose": "^2.3.0",
+    "sinon-test": "^2.4.1",
+    "supertest": "^4.0.2"
+  }
+}

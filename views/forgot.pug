@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  .row
+    form(method='post', action='/users/forgot', novalidate='novalidate')
+      .form-group
+        label(for='email') Email address
+        input#email.form-control(type='email', name='email', aria-describedby='emailHelp', placeholder='Enter email')
+        small#emailHelp.form-text.text-muted We'll send you an email with a link to reset your password.
+      br
+      button.btn.btn-primary(type='submit') Submit

@@ -1,0 +1,3 @@
+controllers/*.spec.js
+models/*.spec.js
+test/*.spec.js

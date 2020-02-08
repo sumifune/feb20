@@ -1,0 +1,102 @@
+version: '3'
+
+services:
+  main:
+    build: .
+    volumes:
+      # Local app folder is mounted to the container
+      - .:/usr/src/app
+      # node_modules that are installed inside the container during
+      # the build will not be overridden by your current folder.
+      - /usr/src/app/node_modules
+    container_name: main
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MONGO_USERNAME=$MONGO_USERNAME
+      - MONGO_PASSWORD=$MONGO_PASSWORD
+      - MONGO_HOSTNAME=db
+      - MONGO_PORT=$MONGO_PORT
+      - MONGO_DB=$MONGO_DB
+    # ports:
+    # - "3000:3000"
+    networks:
+      - app-network
+    command: ["./wait-for.sh", "db:27017", "--", "npm", "start" ]
+
+  db:
+    image: mongo:4.1.8-xenial
+    container_name: db
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+    # ports:
+      # - "81:27017"
+    volumes:
+      - dbdata:/data/db
+    networks:
+      - app-network
+  redis:
+    image: 'bitnami/redis:latest'
+    container_name: redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - redisdata:/bitnami/redis/data
+    networks:
+      - app-network
+
+  webserver:
+    image: nginx:mainline-alpine
+    container_name: webserver
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      # - "443:443"
+    volumes:
+      - web-root:/var/www/html
+      - ./nginx-conf:/etc/nginx/conf.d
+      # - certbot-etc:/etc/letsencrypt
+      # - certbot-var:/var/lib/letsencrypt
+      # - dhparam:/etc/ssl/certs
+    depends_on:
+      - main
+    networks:
+      - app-network
+
+  # certbot:
+  #   image: certbot/certbot
+  #   container_name: certbot
+  #   volumes:
+  #     - certbot-etc:/etc/letsencrypt
+  #     - certbot-var:/var/lib/letsencrypt
+  #     - web-root:/var/www/html
+  #   depends_on:
+  #     - webserver
+  #   command: certonly --webroot --webroot-path=/var/www/html --email sukia.mifune@gmail.com --agree-tos --no-eff-email --staging -d kurotombo.com  -d www.kurotombo.com
+
+volumes:
+  dbdata:
+  redisdata:
+  certbot-etc:
+  certbot-var:
+  web-root:
+    driver: local
+    driver_opts:
+      type: none
+      # full path. Cannot make it work using a relative path. Do not use ${PWD}
+      # device: /${PWD}/public
+      device: /c/Users/Nombre/docker/tutorials/zz/public
+      o: bind
+  # dhparam:
+  #   driver: local
+  #   driver_opts:
+  #     type: none
+  #     device: /c/Users/Nombre/docker/tutorials/zz/dhparam/
+  #     o: bind
+
+networks:
+  app-network:
+    driver: bridge

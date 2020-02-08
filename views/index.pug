@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  - if (typeof(currentUser) !== 'undefined'){
+    p= currentUser.email
+  -}
+  - if (typeof(session) !== 'undefined'){
+    p= session.cookie.expires
+  -}
+  hr
+  p Session ID: #{sessionID}
+  p
+    strong session.cookie
+    |  (added by express-session):
+  ul
+    each val, index in session.cookie
+      li= index + ': ' + val
+  hr
+  - if (typeof(currentUser) !== 'undefined'){
+    p
+      strong req.user
+      |  (added by passport):
+    ul
+      each val, index in currentUser
+        li= index + ': ' + val
+    a(href='/sessions/logout') logout
+  -}else{
+    a(href='/sessions/login') login
+  -}

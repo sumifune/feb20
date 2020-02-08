@@ -1,0 +1,6 @@
+- if (typeof(users) !== 'undefined'){
+  ul
+    each user in users
+      li
+        a(href='/users/' + user._id) #{user.email}
+-}
