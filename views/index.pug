@@ -1,29 +1,46 @@
 extends layout
 
 block content
-  - if (typeof(currentUser) !== 'undefined'){
-    p= currentUser.email
-  -}
-  - if (typeof(session) !== 'undefined'){
-    p= session.cookie.expires
-  -}
-  hr
-  p Session ID: #{sessionID}
-  p
-    strong session.cookie
-    |  (added by express-session):
-  ul
-    each val, index in session.cookie
-      li= index + ': ' + val
-  hr
-  - if (typeof(currentUser) !== 'undefined'){
-    p
-      strong req.user
-      |  (added by passport):
-    ul
-      each val, index in currentUser
-        li= index + ': ' + val
-    a(href='/sessions/logout') logout
-  -}else{
-    a(href='/sessions/login') login
-  -}
+  .row
+    .col-md-12
+      - if (typeof(currentUser) !== 'undefined'){
+        p= currentUser.email
+      -}
+      - if (typeof(session) !== 'undefined'){
+        p Cookie expires: #{session.cookie.expires}
+        p Session ID: #{session.id}
+        p
+          strong session.cookie
+          |  (added by express-session):
+        ul
+          each val, index in session.cookie
+            li= index + ': ' + val
+        hr
+        p
+          strong session
+        hr
+        ul
+          each val, index in session
+            li= index + ': ' + val
+        hr
+      -}
+      - if (typeof(session.passport) !== 'undefined'){
+        p
+          strong passport
+        hr
+        ul
+          each val, index in session.passport
+            li= index + ': ' + val
+        hr
+      -}
+      - if (typeof(currentUser) !== 'undefined'){
+        p
+          strong req.user
+          |  (added by passport):
+        ul
+          each val, index in currentUser
+            li= index + ': ' + val
+        a(href='/sessions/logout') logout
+      -}else{
+        a(href='/sessions/login') login
+      -}

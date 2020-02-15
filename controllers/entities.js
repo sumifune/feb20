@@ -11,7 +11,12 @@ exports.root = function(req, res) {
 exports.create = function(req, res){
 
   let date_now = Date.now();
-  var newEntity = new Entity({name: 'E1'});
+
+  let ownerID = 0;
+  if (req.user) {
+    ownerID = req.user.id;
+  }
+  var newEntity = new Entity({name: 'E1', city: 'Lugo', ownerID: ownerID});
 
   newEntity.save(function (err) {
     if(err) {
@@ -26,7 +31,7 @@ exports.read = function(req, res){
 
   var myQuery = Entity.find({});
   myQuery.sort({name: 1});
-  myQuery.select('name');
+  myQuery.select('name city ownerID');
   myQuery.exec(function (err, entities){
     	console.log('-------------- -------------------------------------');
     	console.log(entities);
@@ -34,7 +39,6 @@ exports.read = function(req, res){
     if (!err){
       res.json({ message: ' Reading', entities: entities });
     }else{
-
       res.status(400).send('Error reading documents');
     }
   });

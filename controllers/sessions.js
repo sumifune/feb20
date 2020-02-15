@@ -32,6 +32,7 @@ exports.signupNewUser = function(req, res, next) {
 	var name = req.body.name;
 	var email = req.body.email.toLowerCase();
 	var password = req.body.password;
+	var role = req.body.role;
 
 	User.findOne({ email: email }, function(err, user) {
 		if (err) {
@@ -44,7 +45,8 @@ exports.signupNewUser = function(req, res, next) {
 		var newUser = new User({
 			name: name,
 			email: email,
-			password: password
+			password: password,
+			role: role
 		});
 		newUser.save(next);
 	});

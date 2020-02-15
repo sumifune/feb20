@@ -10,22 +10,52 @@ html(lang='en')
     title Webapp
   body
     .container-fluid
+      .row
+        .col-md-12
+          nav.navbar.navbar-expand-lg.navbar-light.bg-light
+            a.navbar-brand(href='/') Kurotombo
+            button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+              span.navbar-toggler-icon
+            #navbarSupportedContent.collapse.navbar-collapse
+              ul.navbar-nav.mr-auto
+                li.nav-item.active
+                  a.nav-link(href='/')
+                    | Home
+                    span.sr-only (current)
+                li.nav-item
+                  a.nav-link(href='/rbac/xxx') xxxx
+                li.nav-item.dropdown
+                  a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                    | Sessions
+                  .dropdown-menu(aria-labelledby='navbarDropdown')
+                    a.dropdown-item(href='/sessions/login') Log in
+                    a.dropdown-item(href='/sessions/logout') Log out
+                    a.dropdown-item(href='/sessions/signup') Sign up
+                li.nav-item.dropdown
+                  a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                    | Users
+                  .dropdown-menu(aria-labelledby='navbarDropdown')
+                    a.dropdown-item(href='/users/forgot') Forgot
       //- errors is provided by the rendering engine
       - if (typeof(errors) !== 'undefined'){
         - console.log("Number errors: " + errors.length);
         each error in errors
-          .alert.alert-danger.row(role='alert')
-            p= error
+          .row
+            .col-md-12
+              .alert.alert-danger(role='alert')
+                p= error
       -}
       //- infos is provided by the rendering engine
       - if (typeof(infos) !== 'undefined'){
         each info in infos
-          .alert.alert-info.row(role='alert')
-            p= info
+          .row
+            .col-md-12
+              .alert.alert-info(role='alert')
+                p= info
       -}
       block content
-      // Optional JavaScript
-      // jQuery first, then Popper.js, then Bootstrap JS
+    // Optional JavaScript
+    // jQuery first, then Popper.js, then Bootstrap JS
     script(src='https://code.jquery.com/jquery-3.2.1.slim.min.js', integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN', crossorigin='anonymous')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js', integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q', crossorigin='anonymous')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js', integrity='sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl', crossorigin='anonymous')

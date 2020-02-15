@@ -19,48 +19,104 @@
 	</head>
 	<body>
 		<div class="container-fluid">
-			<div class="alert alert-danger" role="alert"><p>Invalid name</p></div>
-			<div class="alert alert-danger" role="alert"><p>Invalid email</p></div>
 			<div class="row">
-				<form method="post" action="/users/edit" novalidate="novalidate">
-					<input
-						class="form-control"
-						id="originalname"
-						name="originalname"
-						type="hidden"
-						value="paco"
-					/><input
-						class="form-control"
-						id="originalemail"
-						name="originalemail"
-						type="hidden"
-						value="paco@paco.com"
-					/>
-					<div class="form-group">
-						<label for="email">Email</label
-						><input
-							class="form-control"
-							id="email"
-							type="email"
-							name="email"
-							value="paco@paco.com"
-						/>
-					</div>
-					<div class="form-group">
-						<label for="name">Name</label
-						><input
-							class="form-control"
-							id="name"
-							type="text"
-							name="name"
-							value="paco"
-						/>
-					</div>
-					<br /><button class="btn btn-primary" type="submit">Update</button>
-				</form>
+				<div class="col-md-12">
+					<nav class="navbar navbar-expand-lg navbar-light bg-light">
+						<a class="navbar-brand" href="/">Kurotombo</a
+						><button
+							class="navbar-toggler"
+							type="button"
+							data-toggle="collapse"
+							data-target="#navbarSupportedContent"
+							aria-controls="navbarSupportedContent"
+							aria-expanded="false"
+							aria-label="Toggle navigation"
+						>
+							<span class="navbar-toggler-icon"></span>
+						</button>
+						<div class="collapse navbar-collapse" id="navbarSupportedContent">
+							<ul class="navbar-nav mr-auto">
+								<li class="nav-item active">
+									<a class="nav-link" href="/"
+										>Home<span class="sr-only">(current)</span></a
+									>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="/sessions/login">Log in</a>
+								</li>
+								<li class="nav-item dropdown">
+									<a
+										class="nav-link dropdown-toggle"
+										id="navbarDropdown"
+										href="#"
+										role="button"
+										data-toggle="dropdown"
+										aria-haspopup="true"
+										aria-expanded="false"
+										>Sessions</a
+									>
+									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+										<a class="dropdown-item" href="/sessions/login">Log in</a
+										><a class="dropdown-item" href="/sessions/logout">Log out</a
+										><a class="dropdown-item" href="/sessions/signup"
+											>Sign up</a
+										>
+									</div>
+								</li>
+								<li class="nav-item dropdown">
+									<a
+										class="nav-link dropdown-toggle"
+										id="navbarDropdown"
+										href="#"
+										role="button"
+										data-toggle="dropdown"
+										aria-haspopup="true"
+										aria-expanded="false"
+										>Users</a
+									>
+									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+										<a class="dropdown-item" href="/users/forgot">Forgot</a>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</nav>
+				</div>
 			</div>
-			<!-- Optional JavaScript--><!-- jQuery first, then Popper.js, then Bootstrap JS-->
+			<div class="row">
+				<div class="alert alert-danger col-md-12" role="alert">
+					<p>There is no such a user (ofuscate this)</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<form action="/sessions/login" method="post" novalidate="novalidate">
+						<div class="form-group">
+							<label for="email">Email address:</label
+							><input
+								class="form-control"
+								id="email"
+								type="email"
+								name="email"
+								placeholder="Enter email"
+							/>
+						</div>
+						<div class="form-group">
+							<label for="password">Password:</label
+							><input
+								class="form-control"
+								id="password"
+								type="password"
+								name="password"
+								placeholder="Enter password"
+							/>
+						</div>
+						<button class="btn btn-primary" type="submit">Log in</button>
+					</form>
+				</div>
+			</div>
 		</div>
+		<!-- Optional JavaScript--><!-- jQuery first, then Popper.js, then Bootstrap JS-->
 		<script
 			src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 			integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

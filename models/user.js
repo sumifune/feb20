@@ -8,7 +8,8 @@ const UserSchema = mongoose.Schema;
 const User = new UserSchema({
 	name: { type: String, trim: true, required: true },
 	email: { type: String, required: true, index: { unique: true } },
-	password: { type: String, required: true }
+	password: { type: String, required: true },
+	role: { type: String, trim: true, required: true }
 });
 
 // Define pre-save hook

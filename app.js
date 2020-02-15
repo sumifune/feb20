@@ -13,6 +13,8 @@ var walletsRouter = require("./routes/wallets");
 var redisRouter = require("./routes/redis");
 var v1 = require("./routes/v1");
 var sessionsRouter = require("./routes/sessions");
+var rbacRouter = require("./routes/rbac");
+
 var db = require("./db");
 var redisParallelAuth = require("./redis");
 
@@ -190,6 +192,7 @@ app.use("/wallets", walletsRouter);
 app.use("/v1", v1);
 app.use("/sessions", sessionsRouter);
 app.use("/redis", redisRouter);
+app.use("/rbac", rbacRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

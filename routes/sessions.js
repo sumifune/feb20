@@ -72,21 +72,36 @@ router.post(
 			.custom((value, { req }) => {
 				let ret = dictVal.isImproper(req.body.name, value);
 				return true;
-			})
+			}),
+		body("role", "Invalid role")
+			.trim()
+			.isLength({ min: 3 }),
 	],
 	(req, res, next) => {
 		// Finds the validation errors in this request and wraps them
 		// in an object with handy functions
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
-			// res.locals is an object passed to
-			// whatever rendering engine your app is using
-			res.locals.errors = errors.array();
+			// // res.locals is an object passed to
+			// // whatever rendering engine your app is using
+			// res.locals.errors = errors.array();
+			// // errors are passed to the view
+			// res.render("signup", { err: errors.array() });
+			// // if in development uncomment this and
+			// // comment the line above
+			// // return res.status(422).json({ errors: errors.array() });
+			// get the msg part of the errors
+			let arr = [];
+			errors.array().forEach(function(e) {
+				arr.push(e.msg);
+			});
+			// res.locals is an object passed to whatever
+			// rendering engine the app is using.
+			res.locals.errors = arr;
 			// errors are passed to the view
-			res.render("signup", { err: errors.array() });
-			// if in development uncomment this and
-			// comment the line above
-			// return res.status(422).json({ errors: errors.array() });
+			// so that the form can highlight the errors
+			// on each text input
+			res.render("signup");
 		} else {
 			next();
 		}
