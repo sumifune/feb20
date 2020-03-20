@@ -12,6 +12,10 @@ var usersRouter = require("./routes/users");
 var walletsRouter = require("./routes/wallets");
 var redisRouter = require("./routes/redis");
 var v1 = require("./routes/v1");
+var dosRouter = require("./routes/dos");
+var protectRouter = require("./routes/protect-data");
+
+
 var sessionsRouter = require("./routes/sessions");
 var rbacRouter = require("./routes/rbac");
 
@@ -185,6 +189,12 @@ app.use(function(req, res, next) {
   next();
 
 });
+// add extra info to the -user- object in passportjs
+// app.use(function(req, res, next) {
+//     if(req.user) req.user.pericodelospalotes = 'wako';
+//     next();
+// });
+
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
@@ -193,6 +203,8 @@ app.use("/v1", v1);
 app.use("/sessions", sessionsRouter);
 app.use("/redis", redisRouter);
 app.use("/rbac", rbacRouter);
+app.use("/dos", dosRouter);
+app.use("/protect", protectRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

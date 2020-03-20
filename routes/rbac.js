@@ -14,7 +14,8 @@ router.get(
 	rbacCtrl.editEntity
 );
 
-router.get("/entity/:name",
+router.get(
+	"/entity/:name",
 	rbac.authorize("entity:read"),
   rbacCtrl.readEntity
 );

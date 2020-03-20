@@ -3,7 +3,7 @@ extends layout
 block content
   .row
     .col-md-12
-      form(action='/sessions/login' method='post', novalidate='novalidate')
+      form(action='/sessions/login' method='post', novalidate='novalidate' autocomplete='off')
         .form-group
           label(for='email') Email address:
           input#email.form-control(type='email' name='email' placeholder='Enter email')

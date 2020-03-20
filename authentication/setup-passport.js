@@ -1,6 +1,7 @@
 var passport = require("passport");
 var User = require("../models/user");
 let { redisClient } = require("../redis.js");
+const myCrypt = require("../lib/crypt.js");
 
 var LocalStrategy = require("passport-local").Strategy;
 
@@ -57,6 +58,7 @@ passport.use(
           }
           if (isMatch) {
             redisClient.del(key);
+            req.session.encryptionKey = myCrypt.decrypt(user.encryptedKey, password);
             return done(null, user);
           } else {
             return universalDelay(() => {

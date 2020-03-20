@@ -2,7 +2,7 @@ extends layout
 
 block content
   .row
-    form(method='post', action='', novalidate='novalidate')
+    form(method='post', action='', novalidate='novalidate', autocomplete='off')
       .form-group
         label(for='password') New password
         input#newPass.form-control(type='password', name='newPass', placeholder='New password', autofocus)

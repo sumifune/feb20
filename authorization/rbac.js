@@ -52,9 +52,11 @@ function authorizeRessource(operation, model) {
 
 		mongoose.model(model).find(query, function(err, entities) {
 			if(err)
+				console.log('authorizeRessource - mongoose find query returned -> err');
 			 	res.status(500).send("Error accessing model");
 
 			if (entities.length > 1)
+				console.log('authorizeRessource - entities.length > 1');
 			 	res.status(500).send("Ressource with more than one ownwer");
 
 			entities.forEach(function(entity){
@@ -62,6 +64,7 @@ function authorizeRessource(operation, model) {
 			});
 
 			if (!operation) {
+				console.log('authorizeRessource - No operation was provided');
 				res.status(500).send("No operation was provided");
 			}
 
@@ -72,29 +75,29 @@ function authorizeRessource(operation, model) {
 						.can(req.user.role, operation, {userId: req.user.id, ownerId: ownerId})
 						.then(result => {
 							if (result) {
-								// we are allowed access
-								console.log("Allowed");
-								next();
+								console.log('authorizeRessource - access allowed');
+								return next();
 							} else {
-								// we are not allowed access
-								res.status(400).send("Forbidden");
+								console.log('authorizeRessource - refuse to acknowledge access denied');
+								res.status(400).send("Access denied");
+								// to increase ofuscation comment the
+								// line above and uncomment the lines below
+								// next();
+								// return;
 							}
 						})
 						.catch(err => {
-							// something else went wrong - refer to err object
-							console.log(err);
+							console.log('authorizeRessource - rbac - err ->' + err.message);
 							res.status(500).send("I fucked up");
 						});
 				} else {
 					req.flash("error", 'You have to login');
 					res.redirect('/sessions/login');
 				}
-
-			 }catch(e){
-					console.log(e.message);
-					res.status(500).send(e.message);
-			 }
-
+		 }catch(e){
+		 		console.log('authorizeRessource - try/catch rbac - err ->' + e.message);
+				res.status(500).send(e.message);
+		 }
 		});
 	};
 }
@@ -102,6 +105,7 @@ function authorize(operation) {
 	return function(req, res, next) {
 
 		if (!operation) {
+			console.log('authorize - No operation was provided');
 			res.status(500).send("No operation was provided");
 		}
 
@@ -112,17 +116,19 @@ function authorize(operation) {
 					.can(req.user.role, operation)
 					.then(result => {
 						if (result) {
-							// we are allowed access
-							console.log("Access allowed");
-							next();
+							console.log('authorize - access allowed');
+							return next();
 						} else {
-							// we are not allowed access
+							console.log('authorize - refuse to acknowledge access denied');
 							res.status(400).send("Access denied");
+							// to increase ofuscation comment the
+							// line above and uncomment the lines below
+							// next();
+							// return;
 						}
 					})
 					.catch(err => {
-						// something else went wrong - refer to err object
-						console.log(err);
+						console.log('authorizeRessource - rbac - err ->' + err.message);
 						res.status(500).send("I fucked up");
 					});
 			} else {
@@ -130,7 +136,7 @@ function authorize(operation) {
 				res.redirect('/sessions/login');
 			}
 		}catch(e){
-			console.log(e.message);
+			console.log('authorize - try/catch rbac - err ->' + e.message);
 			res.status(500).send(e.message);
 		}
 	};
